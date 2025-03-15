@@ -35,7 +35,6 @@ export default function Home() {
         alignItems: "center",
         justifyContent: "center",
         // backgroundImage: "linear-gradient(to bottom right, #4caf50, #81c784)"
-        // background: "linear-gradient(135deg, #006400, #00a000)"
         background: "linear-gradient(135deg, #006400, #00a000)",
       }}
     >
@@ -64,7 +63,7 @@ export default function Home() {
                   fontFamily: "Bungee, sans-serif",
                   fontWeight: "700",
                   fontSize: {
-                    xs: "2.5rem",
+                    xs: "2rem",
                     sm: "3rem",
                     md: "3.5rem",
                     lg: "4rem",

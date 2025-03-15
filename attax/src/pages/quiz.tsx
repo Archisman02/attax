@@ -3,6 +3,8 @@ import { observer } from "mobx-react-lite";
 // import { quizStore } from "../store/quizStore";
 import { Button, Typography, Box, Paper, TextField } from "@mui/material";
 import { motion } from "framer-motion";
+import QuestionCard from "@/components/QuestionCard";
+// import  questions  from "@/data/questions";
 
 const questions = [
   {
@@ -37,130 +39,32 @@ const questions = [
   },
 ];
 
+const getRandomQuestions = (questions: any[], num: number) => {
+  const shuffled = [...questions].sort(() => Math.random() - 0.5); // Shuffle array
+  console.log("Shuffled", shuffled.slice(0, num));
+  return shuffled.slice(0, num); // Pick first `num` questions
+};
+
 const Quiz = observer(() => {
+  const [twentyQuestions, setTwentyQuestions] = useState<any[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [userAnswer, setUserAnswer] = useState("");
-  const [score, setScore] = useState(0);
-  const [timer, setTimer] = useState(15);
-  const [gameOver, setGameOver] = useState(false);
+  const currentQuestion = twentyQuestions[currentQuestionIndex];
 
-  // Get current question
-  const currentQuestion = questions[currentQuestionIndex];
+  //   useEffect(() => {
+  //     setCurrentQuestion(twentyQuestions[0]);
+  //     console.log("Hiii");
+  //   }, [twentyQuestions]);
 
-  // Timer Logic
+  console.log("Current is", currentQuestion);
+
   useEffect(() => {
-    if (timer === 0) {
-      submitAnswer(); // Auto-submit when timer reaches 0
-      return;
-    }
-    const interval = setInterval(() => setTimer((prev) => prev - 1), 1000);
-    return () => clearInterval(interval);
-  }, [timer]);
+    setTwentyQuestions(getRandomQuestions(questions, 3)); // ✅ Pick 20 random questions
+    console.log("Hellooo");
+  }, []);
 
-  // Handle Answer Submission
-  const submitAnswer = () => {
-    if (
-      userAnswer.trim().toLowerCase() === currentQuestion.answer.toLowerCase()
-    ) {
-      setScore((prev) => prev + 10); // Award points for correct answer
-    }
-
-    setUserAnswer(""); // Reset input
-    nextQuestion();
-  };
-
-  // Move to the next question or end game
-  const nextQuestion = () => {
-    if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex((prev) => prev + 1);
-      setTimer(15); // Reset timer for new question
-    } else {
-      setGameOver(true);
-    }
-  };
-
-  // Restart the game
-  const resetGame = () => {
-    setCurrentQuestionIndex(0);
-    setScore(0);
-    setUserAnswer("");
-    setTimer(15);
-    setGameOver(false);
-  };
-
-  // const [timer, setTimer] = React.useState<number>(15);
-  // const currentQuestion = questions[0];
+  console.log("Selected 20 Questions:", twentyQuestions); // ✅ Debugging output
 
   return (
-    // <Box
-    //   display="flex"
-    //   justifyContent="center"
-    //   alignItems="center"
-    //   height="100vh"
-    //   textAlign="center"
-    // >
-    //   <Paper
-    //     sx={{
-    //       p: 4,
-    //       width: "80%",
-    //       maxWidth: 600,
-    //       background: "rgba(255, 255, 255, 0.1)", // Transparent effect
-    //       backdropFilter: "blur(10px)", // Blurred effect
-    //       borderRadius: "12px",
-    //     }}
-    //   >
-    //     {/* Timer */}
-    //     <Typography variant="h6" sx={{ color: timer <= 5 ? "red" : "white" }}>
-    //       ⏳ {timer}s
-    //     </Typography>
-
-    //     {/* Question Category */}
-    //     <Typography variant="h5" fontWeight="bold" mb={2}>
-    //       Who Am I?
-    //     </Typography>
-
-    //     {/* Hints (Reveal Hints One by One) */}
-    //     {currentQuestion.hints.map((hint, index) => (
-    //       <Typography
-    //         key={index}
-    //         variant="body1"
-    //         component={motion.p}
-    //         initial={{ opacity: 0 }}
-    //         animate={{ opacity: 1 }}
-    //         transition={{ delay: index * 2 }}
-    //         mb={1}
-    //       >
-    //         {hint}
-    //       </Typography>
-    //     ))}
-
-    //     {/* Answer Input Box */}
-    //     <TextField
-    //       fullWidth
-    //       variant="outlined"
-    //       placeholder="Type your answer..."
-    //       // value={quizStore.userAnswer}
-    //       // onChange={(e) => quizStore.setUserAnswer(e.target.value)}
-    //       sx={{ mt: 2, bgcolor: "white", borderRadius: "8px" }}
-    //     />
-
-    //     {/* Submit Button */}
-    //     <Button
-    //       variant="contained"
-    //       sx={{ mt: 2 }}
-    //       // onClick={() => quizStore.submitAnswer()}
-    //       component={motion.button}
-    //       whileHover={{ scale: 1.05 }}
-    //       whileTap={{ scale: 0.95 }}
-    //     >
-    //       Submit Answer
-    //     </Button>
-
-    //     {/* Score Display */}
-    //     <Typography mt={2}>Score: 1</Typography>
-    //   </Paper>
-    // </Box>
-
     <Box
       display="flex"
       justifyContent="center"
@@ -176,99 +80,57 @@ const Quiz = observer(() => {
           maxWidth: 600,
           background: "rgba(255, 255, 255, 0.1)", // Transparent effect
           backdropFilter: "blur(10px)", // Blurred glass effect
+          //   backgroundColor: "rgba(255, 255, 255, 0.8)",
           borderRadius: "12px",
           color: "white",
         }}
       >
-        {gameOver ? (
-          <>
-            <Typography variant="h4">Game Over! 🎉</Typography>
-            <Typography variant="h6">Your Score: {score}</Typography>
-            <Button
-              variant="contained"
-              sx={{
-                mt: 2,
-                bgcolor: "#FFD700",
-                color: "black",
-                fontWeight: "bold",
-              }}
-              onClick={resetGame}
-            >
-              Play Again
-            </Button>
-          </>
-        ) : (
-          <>
-            {/* Timer */}
-            <Typography
-              variant="h6"
-              sx={{
-                color: timer <= 5 ? "red" : "white",
-                fontWeight: "bold",
-              }}
-            >
-              ⏳ {timer}s
-            </Typography>
+        <Box display="flex" justifyContent="space-between" mb={2}>
+          <Typography variant="h6" fontWeight="bold">
+            {/* Question {questionNumber}/{20} */}
+          </Typography>
+          <Typography
+            variant="h6"
+            sx={{
+              //   color: timer <= 5 ? "red" : "white",
+              fontWeight: "bold",
+            }}
+          >
+            {/* ⏳ {timer}s */}
+          </Typography>
+        </Box>
 
-            {/* Question Category */}
-            <Typography variant="h5" fontWeight="bold" mt={2} mb={3}>
-              Who Am I?
-            </Typography>
+        {currentQuestion && <QuestionCard question={currentQuestion} />}
 
-            {/* Hints (All Three Hints Visible) */}
-            {currentQuestion.hints.map((hint, index) => (
-              <Typography
-                key={index}
-                variant="body1"
-                fontSize="1.2rem"
-                sx={{
-                  mb: 1,
-                  p: 1,
-                  background: "rgba(255, 255, 255, 0.2)", // Slightly transparent background
-                  borderRadius: "8px",
-                }}
-              >
-                {hint}
-              </Typography>
-            ))}
+        {/* Answer Input Box */}
+        <TextField
+          fullWidth
+          variant="outlined"
+          placeholder="Type your answer..."
+          //   value={userAnswer}
+          //   onChange={(e) => setUserAnswer(e.target.value)}
+          sx={{
+            mt: 3,
+            bgcolor: "white",
+            borderRadius: "8px",
+          }}
+        />
 
-            {/* Answer Input Box */}
-            <TextField
-              fullWidth
-              variant="outlined"
-              placeholder="Type your answer..."
-              value={userAnswer}
-              onChange={(e) => setUserAnswer(e.target.value)}
-              sx={{
-                mt: 3,
-                bgcolor: "white",
-                borderRadius: "8px",
-              }}
-            />
-
-            {/* Submit Button */}
-            <Button
-              variant="contained"
-              sx={{
-                mt: 3,
-                bgcolor: "#FFD700",
-                color: "black",
-                fontWeight: "bold",
-              }} // Gold button
-              onClick={submitAnswer}
-              component={motion.button}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              Submit Answer
-            </Button>
-
-            {/* Score Display */}
-            <Typography mt={2} fontWeight="bold">
-              Score: {score}
-            </Typography>
-          </>
-        )}
+        <Button
+          variant="contained"
+          sx={{
+            mt: 3,
+            bgcolor: "#FFD700",
+            color: "black",
+            fontWeight: "bold",
+          }} // Gold button
+          //   onClick={submitAnswer}
+          component={motion.button}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          Submit Answer
+        </Button>
       </Paper>
     </Box>
   );
