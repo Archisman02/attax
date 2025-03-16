@@ -138,8 +138,6 @@ const questions = [
     status: "Retired",
     answer: "Zlatan Ibrahimovic",
   },
-
-  // 🟡 MEDIUM QUESTIONS (20)
   {
     id: 14,
     category: "Career Path Challenge",
@@ -215,8 +213,6 @@ const questions = [
     status: "Retired",
     answer: "Samuel Eto'o",
   },
-
-  // 🔴 HARD QUESTIONS (20)
   {
     id: 24,
     category: "Career Path Challenge",
@@ -309,9 +305,8 @@ const questions = [
   {
     id: 36,
     category: "Who Said It?",
-    quote:
-      "When people succeed, it is because of hard work. Luck has nothing to do with success.",
-    answer: "Diego Maradona",
+    quote: "I learned all about life with a ball at my feet.",
+    answer: "Ronaldinho",
   },
   {
     id: 37,
@@ -428,6 +423,133 @@ const questions = [
     quote:
       "In football, you win as a team, you lose as a team, and you also celebrate as a team.",
     answer: "Didier Drogba",
+  },
+  {
+    id: 64,
+    category: "Who Said It?",
+    quote: "Mountains are there to be climbed, aren't they?",
+    answer: "Ole Gunnar Solskjaer",
+  },
+  {
+    id: 65,
+    category: "Who Said It?",
+    quote: "But eras come to an end",
+    answer: "Erik Ten Hag",
+  },
+  {
+    id: 66,
+    category: "Who Said It?",
+    quote:
+      "If they don't want me anymore, I'll go somewhere else and win trophies. That's what I have done my whole career.",
+    answer: "Erik Ten Hag",
+  },
+  {
+    id: 66,
+    category: "Who Said It?",
+    quote: "Coaches can't perform magic",
+    answer: "Erik Ten Hag",
+  },
+  {
+    id: 67,
+    category: "Who Said It?",
+    quote:
+      "“Please don’t call me arrogant, but I’m European champion and I think I’m a special one.",
+    answer: "José Mourinho",
+  },
+  {
+    id: 68,
+    category: "Who Said It?",
+    quote: "I prefer not to speak. If I speak, I am in big trouble.",
+    answer: "José Mourinho",
+  },
+  {
+    id: 69,
+    category: "Who Said It?",
+    quote: "Respect. Respect, man. Respect. Respect.",
+    answer: "José Mourinho",
+  },
+  {
+    id: 70,
+    category: "Who Said It?",
+    quote: "They brought the bus and they left the bus in front of the goal.",
+    answer: "José Mourinho",
+  },
+  {
+    id: 71,
+    category: "Who Said It?",
+    quote: "They brought the bus and they left the bus in front of the goal.",
+    answer: "José Mourinho",
+  },
+  {
+    id: 73,
+    category: "Who Said It?",
+    quote: "Football, bloody hell!",
+    answer: "Alex Ferguson",
+  },
+  {
+    id: 74,
+    category: "Who Said It?",
+    quote: "Attack wins you games, defence wins you titles.",
+    answer: "Alex Ferguson",
+  },
+  {
+    id: 75,
+    category: "Who Said It?",
+    quote:
+      "My greatest challenge was knocking Liverpool right off their f*****g perch.",
+    answer: "Alex Ferguson",
+  },
+  {
+    id: 76,
+    category: "Who Said It?",
+    quote:
+      "Give me Zidane and 10 pieces of wood, and I'll win you the Champions League.",
+    answer: "Alex Ferguson",
+  },
+  {
+    id: 77,
+    category: "Who Said It?",
+    quote: "Let's talk about six, baby!",
+    answer: "Jürgen Klopp",
+  },
+  {
+    id: 78,
+    category: "Who Said It?",
+    quote: "I'm a normal guy from the Black Forest. I'm the Normal One.",
+    answer: "Jürgen Klopp",
+  },
+  {
+    id: 78,
+    category: "Who Said It?",
+    quote:
+      "You can change your wife, your politics, your religion, but never, never can you change your favourite football team.",
+    answer: "Eric Cantona",
+  },
+  {
+    id: 79,
+    category: "Who Said It?",
+    quote: "It’s getting tickly now – squeaky-bum time, I call it.",
+    answer: "Alex Ferguson",
+  },
+  {
+    id: 80,
+    category: "Who Said It?",
+    quote:
+      "First, I went left; he did too. Then I went right, and he did, too. Then I went left again, and he went to buy a hot dog.",
+    answer: "Alex Ferguson",
+  },
+  {
+    id: 80,
+    category: "Who Said It?",
+    quote:
+      "First, I went left; he did too. Then I went right, and he did, too. Then I went left again, and he went to buy a hot dog.",
+    answer: "Alex Ferguson",
+  },
+  {
+    id: 81,
+    category: "Who Said It?",
+    quote: "Sunday, the king plays.",
+    answer: "Alex Ferguson",
   },
 ];
 

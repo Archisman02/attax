@@ -16,11 +16,6 @@ export default function Home() {
   const router = useRouter();
   const [category, setCategory] = useState("football");
 
-  const getTitle = () => {
-    if (category === "football") return "Are You a True Football Fan?";
-    if (category === "cricket") return "Are You a True Cricket Fan?";
-  };
-
   const handleStartGame = () => {
     if (!category)
       return alert("Please enter your name and select a category!");
@@ -72,7 +67,7 @@ export default function Home() {
                 }}
                 gutterBottom
               >
-                {getTitle()}
+                Are you a true Football fan?
               </Typography>
             </motion.div>
 
@@ -99,7 +94,7 @@ export default function Home() {
               </Typography>
             </motion.div>
 
-            <ToggleButtonGroup
+            {/* <ToggleButtonGroup
               value={category}
               exclusive
               onChange={(event, newCategory) => setCategory(newCategory)}
@@ -111,7 +106,7 @@ export default function Home() {
               <ToggleButton value="cricket" sx={{ fontSize: "1.2rem", px: 3 }}>
                 🏏 Cricket
               </ToggleButton>
-            </ToggleButtonGroup>
+            </ToggleButtonGroup> */}
 
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
@@ -133,7 +128,7 @@ export default function Home() {
                 onClick={handleStartGame}
                 endIcon={<ArrowForwardIcon />}
               >
-                Test your knowledge
+                Test your Football knowledge
               </Button>
             </motion.div>
           </Box>

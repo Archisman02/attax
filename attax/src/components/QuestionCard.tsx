@@ -71,7 +71,21 @@ const QuestionCard: React.FC<{
         </Box>
       )}
 
-      {}
+      {question.category === "Who Said It?" && (
+        <Box>
+          <Typography variant="h5" fontWeight="bold" mt={2} mb={3}>
+            Who said this?
+          </Typography>
+          <Typography
+            variant="h4"
+            fontWeight="bold"
+            fontStyle="italic"
+            // sx={{ mb: 3, color: "white" }}
+          >
+            "{question.quote}"
+          </Typography>
+        </Box>
+      )}
     </>
   );
 };
