@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
 // import { quizStore } from "../store/quizStore";
-import { Button, Typography, Box, Paper, TextField } from "@mui/material";
+import {
+  Button,
+  Typography,
+  Box,
+  Paper,
+  TextField,
+  Snackbar,
+  Alert,
+} from "@mui/material";
 import { motion } from "framer-motion";
 import QuestionCard from "@/components/QuestionCard";
 // import  questions  from "@/data/questions";
@@ -48,21 +56,69 @@ const getRandomQuestions = (questions: any[], num: number) => {
 const Quiz = observer(() => {
   const [twentyQuestions, setTwentyQuestions] = useState<any[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const currentQuestion = twentyQuestions[currentQuestionIndex];
-
-  //   useEffect(() => {
-  //     setCurrentQuestion(twentyQuestions[0]);
-  //     console.log("Hiii");
-  //   }, [twentyQuestions]);
-
-  console.log("Current is", currentQuestion);
+  //   const currentQuestion = twentyQuestions[currentQuestionIndex];
+  const [userAnswer, setUserAnswer] = useState("");
+  const [score, setScore] = useState(0);
+  const [timer, setTimer] = useState(20);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
 
   useEffect(() => {
-    setTwentyQuestions(getRandomQuestions(questions, 3)); // ✅ Pick 20 random questions
-    console.log("Hellooo");
+    setTwentyQuestions(getRandomQuestions(questions, 3));
   }, []);
 
-  console.log("Selected 20 Questions:", twentyQuestions); // ✅ Debugging output
+  const currentQuestion =
+    twentyQuestions.length > 0 ? twentyQuestions[currentQuestionIndex] : null;
+
+  useEffect(() => {
+    if (!currentQuestion) return;
+
+    const interval = setInterval(() => {
+      setTimer((prevTimer) => {
+        if (prevTimer <= 0) {
+          clearInterval(interval);
+          handleSkipQuestion();
+          return 20;
+        }
+        return prevTimer - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [currentQuestion]);
+
+  useEffect(() => {
+    if (timer === 0) {
+      handleSkipQuestion();
+    }
+  }, [timer]);
+
+  const nextQuestion = () => {
+    setCurrentQuestionIndex((prev) => prev + 1);
+    setTimer(20);
+  };
+
+  useEffect(() => {
+    console.log("Updated index is", currentQuestionIndex);
+  }, [currentQuestionIndex]);
+
+  const submitAnswer = () => {
+    if (
+      userAnswer.trim().toLowerCase() === currentQuestion.answer.toLowerCase()
+    ) {
+      setScore((prev) => prev + 10);
+    }
+    setSnackbarMessage("Question Answered");
+    setSnackbarOpen(true);
+    setUserAnswer("");
+    nextQuestion();
+  };
+
+  const handleSkipQuestion = () => {
+    setSnackbarMessage("Question Skipped");
+    setSnackbarOpen(true);
+    nextQuestion();
+  };
 
   return (
     <Box
@@ -87,16 +143,16 @@ const Quiz = observer(() => {
       >
         <Box display="flex" justifyContent="space-between" mb={2}>
           <Typography variant="h6" fontWeight="bold">
-            {/* Question {questionNumber}/{20} */}
+            Question {currentQuestionIndex}/{20}
           </Typography>
           <Typography
             variant="h6"
             sx={{
-              //   color: timer <= 5 ? "red" : "white",
+              color: timer <= 5 ? "red" : "white",
               fontWeight: "bold",
             }}
           >
-            {/* ⏳ {timer}s */}
+            ⏳ {timer}s
           </Typography>
         </Box>
 
@@ -107,8 +163,8 @@ const Quiz = observer(() => {
           fullWidth
           variant="outlined"
           placeholder="Type your answer..."
-          //   value={userAnswer}
-          //   onChange={(e) => setUserAnswer(e.target.value)}
+          value={userAnswer}
+          onChange={(e) => setUserAnswer(e.target.value)}
           sx={{
             mt: 3,
             bgcolor: "white",
@@ -124,7 +180,7 @@ const Quiz = observer(() => {
             color: "black",
             fontWeight: "bold",
           }} // Gold button
-          //   onClick={submitAnswer}
+          onClick={submitAnswer}
           component={motion.button}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}

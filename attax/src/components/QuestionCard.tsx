@@ -15,7 +15,7 @@ interface Question {
 const QuestionCard: React.FC<{
   question: Question;
 }> = ({ question }) => {
-  console.log("Question Received is", question);
+  //   console.log("Question Received is", question);
   return (
     <>
       {/* {question.category === "Who Am I" && ( */}
