@@ -1,6 +1,4 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
-import { useRouter } from "next/router";
+import React from "react";
 import { Box, Typography } from "@mui/material";
 
 interface Question {

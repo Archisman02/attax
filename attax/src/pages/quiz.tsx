@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import QuestionCard from "@/components/QuestionCard";
+import Results from "@/components/Results";
 // import  questions  from "@/data/questions";
 
 const questions = [
@@ -568,6 +569,8 @@ const Quiz = observer(() => {
   const [timer, setTimer] = useState(20);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [gameOver, setGameOver] = useState(false);
+  const [userResponses, setUserResponses] = useState<any[]>([]);
 
   useEffect(() => {
     setTwentyQuestions(getRandomQuestions(questions, 20));
@@ -600,7 +603,11 @@ const Quiz = observer(() => {
   }, [timer]);
 
   const nextQuestion = () => {
-    setCurrentQuestionIndex((prev) => prev + 1);
+    if (currentQuestionIndex != 19) {
+      setCurrentQuestionIndex((prev) => prev + 1);
+    } else {
+      setGameOver(true);
+    }
     setTimer(20);
   };
 
@@ -609,11 +616,18 @@ const Quiz = observer(() => {
   }, [currentQuestionIndex]);
 
   const submitAnswer = () => {
+    const correctAnswer = currentQuestion.answer.toLowerCase();
+    const userAnswerTrimmed = userAnswer.trim().toLowerCase();
+    const [firstName, lastName] = correctAnswer.split(" ");
+
     if (
-      userAnswer.trim().toLowerCase() === currentQuestion.answer.toLowerCase()
+      userAnswerTrimmed === correctAnswer ||
+      userAnswerTrimmed === firstName ||
+      userAnswerTrimmed === lastName
     ) {
-      setScore((prev) => prev + 10);
+      setScore((prev) => prev + 1);
     }
+
     setSnackbarMessage("Question Answered");
     setSnackbarOpen(true);
     setUserAnswer("");
@@ -626,6 +640,10 @@ const Quiz = observer(() => {
     nextQuestion();
   };
 
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
+
   return (
     <Box
       display="flex"
@@ -635,65 +653,89 @@ const Quiz = observer(() => {
       textAlign="center"
       sx={{ background: "linear-gradient(135deg, #006400, #00a000)" }} // Green gradient background
     >
-      <Paper
-        sx={{
-          p: 4,
-          width: "80%",
-          maxWidth: 600,
-          background: "rgba(255, 255, 255, 0.1)", // Transparent effect
-          backdropFilter: "blur(10px)", // Blurred glass effect
-          //   backgroundColor: "rgba(255, 255, 255, 0.8)",
-          borderRadius: "12px",
-          color: "white",
-        }}
-      >
-        <Box display="flex" justifyContent="space-between" mb={2}>
-          <Typography variant="h6" fontWeight="bold">
-            Question {currentQuestionIndex + 1}/{20}
-          </Typography>
-          <Typography
-            variant="h6"
-            sx={{
-              color: timer <= 5 ? "red" : "white",
-              fontWeight: "bold",
-            }}
-          >
-            ⏳ {timer}s
-          </Typography>
-        </Box>
-
-        {currentQuestion && <QuestionCard question={currentQuestion} />}
-
-        {/* Answer Input Box */}
-        <TextField
-          fullWidth
-          variant="outlined"
-          placeholder="Type your answer..."
-          value={userAnswer}
-          onChange={(e) => setUserAnswer(e.target.value)}
-          sx={{
-            mt: 3,
-            bgcolor: "white",
-            borderRadius: "8px",
-          }}
+      {gameOver ? (
+        <Results
+          score={score}
+          userResponses={userResponses}
+          // onRestart={resetGame}
         />
-
-        <Button
-          variant="contained"
+      ) : (
+        <Paper
           sx={{
-            mt: 3,
-            bgcolor: "#FFD700",
-            color: "black",
-            fontWeight: "bold",
-          }} // Gold button
-          onClick={submitAnswer}
-          component={motion.button}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+            p: 4,
+            width: "80%",
+            maxWidth: 600,
+            background: "rgba(255, 255, 255, 0.1)", // Transparent effect
+            backdropFilter: "blur(10px)", // Blurred glass effect
+            //   backgroundColor: "rgba(255, 255, 255, 0.8)",
+            borderRadius: "12px",
+            color: "white",
+          }}
         >
-          Submit Answer
-        </Button>
-      </Paper>
+          <Box display="flex" justifyContent="space-between" mb={2}>
+            <Typography variant="h6" fontWeight="bold">
+              Question {currentQuestionIndex + 1}/{20}
+            </Typography>
+            <Typography
+              variant="h6"
+              sx={{
+                color: timer <= 5 ? "red" : "white",
+                fontWeight: "bold",
+              }}
+            >
+              ⏳ {timer}s
+            </Typography>
+          </Box>
+
+          {currentQuestion && <QuestionCard question={currentQuestion} />}
+
+          {/* Answer Input Box */}
+          <TextField
+            fullWidth
+            variant="outlined"
+            placeholder="Type your answer..."
+            value={userAnswer}
+            onChange={(e) => setUserAnswer(e.target.value)}
+            sx={{
+              mt: 3,
+              bgcolor: "white",
+              borderRadius: "8px",
+            }}
+          />
+
+          <Button
+            variant="contained"
+            sx={{
+              mt: 3,
+              bgcolor: "#FFD700",
+              color: "black",
+              fontWeight: "bold",
+            }} // Gold button
+            onClick={submitAnswer}
+            component={motion.button}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Submit Answer
+          </Button>
+        </Paper>
+      )}
+
+      {/* Snackbar for feedback */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleSnackbarClose}
+          severity="info"
+          sx={{ width: "100%" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 });
