@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { observer } from "mobx-react-lite";
-// import { quizStore } from "../store/quizStore";
+import quizStore from "../stores/quizStore";
 import {
   Button,
   Typography,
@@ -13,7 +13,7 @@ import {
 import { motion } from "framer-motion";
 import QuestionCard from "@/components/QuestionCard";
 import Results from "@/components/Results";
-// import  questions  from "@/data/questions";
+import router from "next/router";
 
 const questions = [
   {
@@ -537,20 +537,13 @@ const questions = [
     category: "Who Said It?",
     quote:
       "First, I went left; he did too. Then I went right, and he did, too. Then I went left again, and he went to buy a hot dog.",
-    answer: "Alex Ferguson",
-  },
-  {
-    id: 80,
-    category: "Who Said It?",
-    quote:
-      "First, I went left; he did too. Then I went right, and he did, too. Then I went left again, and he went to buy a hot dog.",
-    answer: "Alex Ferguson",
+    answer: "Zlatan Ibrahimaovic",
   },
   {
     id: 81,
     category: "Who Said It?",
     quote: "Sunday, the king plays.",
-    answer: "Alex Ferguson",
+    answer: "Cristiano Ronaldo",
   },
 ];
 
@@ -560,12 +553,21 @@ const getRandomQuestions = (questions: any[], num: number) => {
   return shuffled.slice(0, num); // Pick first `num` questions
 };
 
+const getResultMessage = (score: number) => {
+  if (score >= 3) {
+    return "You're an expert. You deserve a seat with Micah Richards at Monday Night Football.";
+  } else if (score > 1 && score < 3) {
+    return "Great job! You're a football enthusiast.";
+  } else {
+    return "Keep practicing! You'll get there.";
+  }
+};
+
 const Quiz = observer(() => {
   const [twentyQuestions, setTwentyQuestions] = useState<any[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   //   const currentQuestion = twentyQuestions[currentQuestionIndex];
   const [userAnswer, setUserAnswer] = useState("");
-  const [score, setScore] = useState(0);
   const [timer, setTimer] = useState(20);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -573,7 +575,7 @@ const Quiz = observer(() => {
   const [userResponses, setUserResponses] = useState<any[]>([]);
 
   useEffect(() => {
-    setTwentyQuestions(getRandomQuestions(questions, 20));
+    setTwentyQuestions(getRandomQuestions(questions, 5));
   }, []);
 
   const currentQuestion =
@@ -603,10 +605,11 @@ const Quiz = observer(() => {
   }, [timer]);
 
   const nextQuestion = () => {
-    if (currentQuestionIndex != 19) {
+    if (currentQuestionIndex != 4) {
       setCurrentQuestionIndex((prev) => prev + 1);
     } else {
       setGameOver(true);
+      router.replace("/result");
     }
     setTimer(20);
   };
@@ -625,7 +628,7 @@ const Quiz = observer(() => {
       userAnswerTrimmed === firstName ||
       userAnswerTrimmed === lastName
     ) {
-      setScore((prev) => prev + 1);
+      quizStore.setScore(quizStore.score + 1);
     }
 
     setSnackbarMessage("Question Answered");
@@ -653,74 +656,74 @@ const Quiz = observer(() => {
       textAlign="center"
       sx={{ background: "linear-gradient(135deg, #006400, #00a000)" }} // Green gradient background
     >
-      {gameOver ? (
+      {/* {gameOver ? (
         <Results
-          score={score}
+          score={quizStore.score}
           userResponses={userResponses}
+          resultMessage={getResultMessage(quizStore.score)} // Pass the result message
           // onRestart={resetGame}
         />
       ) : (
-        <Paper
-          sx={{
-            p: 4,
-            width: "80%",
-            maxWidth: 600,
-            background: "rgba(255, 255, 255, 0.1)", // Transparent effect
-            backdropFilter: "blur(10px)", // Blurred glass effect
-            //   backgroundColor: "rgba(255, 255, 255, 0.8)",
-            borderRadius: "12px",
-            color: "white",
-          }}
-        >
-          <Box display="flex" justifyContent="space-between" mb={2}>
-            <Typography variant="h6" fontWeight="bold">
-              Question {currentQuestionIndex + 1}/{20}
-            </Typography>
-            <Typography
-              variant="h6"
-              sx={{
-                color: timer <= 5 ? "red" : "white",
-                fontWeight: "bold",
-              }}
-            >
-              ⏳ {timer}s
-            </Typography>
-          </Box>
-
-          {currentQuestion && <QuestionCard question={currentQuestion} />}
-
-          {/* Answer Input Box */}
-          <TextField
-            fullWidth
-            variant="outlined"
-            placeholder="Type your answer..."
-            value={userAnswer}
-            onChange={(e) => setUserAnswer(e.target.value)}
+        <> */}
+      <Paper
+        sx={{
+          p: 4,
+          width: "80%",
+          maxWidth: 600,
+          background: "rgba(255, 255, 255, 0.1)", // Transparent effect
+          backdropFilter: "blur(10px)", // Blurred glass effect
+          //   backgroundColor: "rgba(255, 255, 255, 0.8)",
+          borderRadius: "12px",
+          color: "white",
+        }}
+      >
+        <Box display="flex" justifyContent="space-between" mb={2}>
+          <Typography variant="h6" fontWeight="bold">
+            Question {currentQuestionIndex + 1}/{20}
+          </Typography>
+          <Typography
+            variant="h6"
             sx={{
-              mt: 3,
-              bgcolor: "white",
-              borderRadius: "8px",
-            }}
-          />
-
-          <Button
-            variant="contained"
-            sx={{
-              mt: 3,
-              bgcolor: "#FFD700",
-              color: "black",
+              color: timer <= 5 ? "red" : "white",
               fontWeight: "bold",
-            }} // Gold button
-            onClick={submitAnswer}
-            component={motion.button}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
+            }}
           >
-            Submit Answer
-          </Button>
-        </Paper>
-      )}
+            ⏳ {timer}s
+          </Typography>
+        </Box>
 
+        {currentQuestion && <QuestionCard question={currentQuestion} />}
+
+        {/* Answer Input Box */}
+        <TextField
+          fullWidth
+          variant="outlined"
+          placeholder="Type your answer..."
+          value={userAnswer}
+          onChange={(e) => setUserAnswer(e.target.value)}
+          sx={{
+            mt: 3,
+            bgcolor: "white",
+            borderRadius: "8px",
+          }}
+        />
+
+        <Button
+          variant="contained"
+          sx={{
+            mt: 3,
+            bgcolor: "#FFD700",
+            color: "black",
+            fontWeight: "bold",
+          }} // Gold button
+          onClick={submitAnswer}
+          component={motion.button}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          Submit Answer
+        </Button>
+      </Paper>
       {/* Snackbar for feedback */}
       <Snackbar
         open={snackbarOpen}
@@ -736,6 +739,8 @@ const Quiz = observer(() => {
           {snackbarMessage}
         </Alert>
       </Snackbar>
+      {/* </>
+      )} */}
     </Box>
   );
 });
