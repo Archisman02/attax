@@ -33,68 +33,72 @@ export default function Home() {
         background: "linear-gradient(135deg, #006400, #00a000)",
       }}
     >
-      <Container maxWidth="md">
-        <motion.div
+      <Container maxWidth="md" sx={{ textAlign: "center" }}>
+        {/* <motion.div
           initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-        >
-          <Box
+        > */}
+        {/* <Box
             sx={{
               textAlign: "center",
               p: 4,
-              backgroundColor: "rgba(255, 255, 255, 0.8)",
+              backgroundColor: "#006432",
               borderRadius: 2,
             }}
+          > */}
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2, duration: 0.6 }}
+        >
+          <Typography
+            variant="h2"
+            sx={{
+              fontFamily: "Bungee, sans-serif",
+              fontWeight: "700",
+              fontSize: {
+                xs: "2rem",
+                sm: "3rem",
+                md: "3.5rem",
+                lg: "4rem",
+              },
+              color: "white",
+              mb: 1,
+              letterSpacing: 2,
+            }}
+            gutterBottom
           >
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.6 }}
-            >
-              <Typography
-                variant="h2"
-                sx={{
-                  fontFamily: "Bungee, sans-serif",
-                  fontWeight: "700",
-                  fontSize: {
-                    xs: "2rem",
-                    sm: "3rem",
-                    md: "3.5rem",
-                    lg: "4rem",
-                  },
-                  mb: 2,
-                }}
-                gutterBottom
-              >
-                Are you a true Football fan?
-              </Typography>
-            </motion.div>
+            Are you a true Football fan?
+          </Typography>
+        </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-            >
-              <Typography
-                variant="h6"
-                sx={{
-                  fontFamily: "Bungee, sans-serif",
-                  fontSize: {
-                    xs: "1rem",
-                    sm: "1.5rem",
-                    md: "1.5rem",
-                    lg: "1.5rem",
-                  },
-                  mb: 5,
-                }}
-                gutterBottom
-              >
-                Prove It with 20 Questions!
-              </Typography>
-            </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4, duration: 0.6 }}
+        >
+          <Typography
+            variant="h6"
+            sx={{
+              fontFamily: "Bungee, sans-serif",
+              fontSize: {
+                xs: "1rem",
+                sm: "1.5rem",
+                md: "1.5rem",
+                lg: "1.5rem",
+              },
+              mb: 2,
+              letterSpacing: 2,
+              color: "white",
+            }}
+            gutterBottom
+          >
+            Prove It with 20 Questions!
+          </Typography>
+        </motion.div>
 
-            {/* <ToggleButtonGroup
+        {/* <ToggleButtonGroup
               value={category}
               exclusive
               onChange={(event, newCategory) => setCategory(newCategory)}
@@ -108,31 +112,31 @@ export default function Home() {
               </ToggleButton>
             </ToggleButtonGroup> */}
 
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.6, duration: 0.5 }}
-            >
-              <Button
-                variant="contained"
-                sx={{
-                  mt: 2,
-                  backgroundColor: "#ffd700",
-                  color: "#000",
-                  "&:hover": {
-                    backgroundColor: "#ffc107",
-                  },
-                  fontFamily: "Bungee, sans-serif",
-                }}
-                size="large"
-                onClick={handleStartGame}
-                endIcon={<ArrowForwardIcon />}
-              >
-                Test your Football knowledge
-              </Button>
-            </motion.div>
-          </Box>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.6, duration: 0.5 }}
+        >
+          <Button
+            variant="contained"
+            sx={{
+              mt: 2,
+              backgroundColor: "#643200",
+              color: "white",
+              "&:hover": {
+                backgroundColor: "#ffc107",
+              },
+              fontFamily: "Bungee, sans-serif",
+            }}
+            size="large"
+            onClick={handleStartGame}
+            endIcon={<ArrowForwardIcon />}
+          >
+            Start Football Quiz
+          </Button>
         </motion.div>
+        {/* </Box> */}
+        {/* </motion.div> */}
       </Container>
     </Box>
   );

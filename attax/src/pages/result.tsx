@@ -10,6 +10,9 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import quizStore from "../stores/quizStore";
+import RestartAltIcon from "@mui/icons-material/RestartAlt";
+import HomeIcon from "@mui/icons-material/Home";
+import router from "next/router";
 
 const Result = observer(() => {
   const score = quizStore.score;
@@ -23,14 +26,19 @@ const Result = observer(() => {
       justifyContent="center"
       alignItems="center"
       height="100vh"
-      sx={{ background: "linear-gradient(135deg, #006400, #81e58e)" }}
+      sx={{ background: "linear-gradient(135deg, #006400, #00a000)" }}
     >
       {/* Top Half */}
       <Box
         width="50%"
         textAlign="center"
         mb={4}
-        sx={{ backgroundColor: "#006432", borderRadius: 2, p: 3 }}
+        sx={{
+          borderRadius: 2,
+          p: 3,
+          background: "rgba(255, 255, 255, 0.1)", // Transparent effect
+          backdropFilter: "blur(10px)",
+        }}
       >
         <Typography
           variant="h4"
@@ -54,20 +62,22 @@ const Result = observer(() => {
               fontWeight: "bold",
               mr: 2,
             }}
+            endIcon={<RestartAltIcon />}
             onClick={() => window.location.reload()}
           >
-            Play Again
+            Restart quiz
           </Button>
           <Button
-            variant="outlined"
+            variant="text"
             sx={{
-              borderColor: "#FFD700",
-              color: "#FFD700",
+              // borderColor: "#FFD700",
+              color: "#000064",
               fontWeight: "bold",
             }}
-            onClick={() => (window.location.href = "/")}
+            endIcon={<HomeIcon />}
+            onClick={() => router.replace("/")}
           >
-            Home
+            Go to Home
           </Button>
         </Box>
       </Box>
@@ -78,7 +88,8 @@ const Result = observer(() => {
           <Accordion
             key={index}
             sx={{
-              backgroundColor: "#006432", // Set accordion background color
+              background: "rgba(255, 255, 255, 0.1)", // Transparent effect
+              backdropFilter: "blur(10px)",
               color: "white", // Set text color to white
             }}
           >
