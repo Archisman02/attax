@@ -605,6 +605,29 @@ const Quiz = observer(() => {
   }, [timer]);
 
   const nextQuestion = () => {
+    if (currentQuestion.category === "Who Said It?") {
+      quizStore.addUserResponse(
+        currentQuestion.category,
+        currentQuestion.quote,
+        userAnswer,
+        currentQuestion.answer
+      );
+    } else if (currentQuestion.category === "Career Path Challenge") {
+      quizStore.addUserResponse(
+        currentQuestion.category,
+        currentQuestion.clubs,
+        userAnswer,
+        currentQuestion.answer
+      );
+    } else {
+      quizStore.addUserResponse(
+        currentQuestion.category,
+        currentQuestion.hints,
+        userAnswer,
+        currentQuestion.answer
+      );
+    }
+
     if (currentQuestionIndex != 4) {
       setCurrentQuestionIndex((prev) => prev + 1);
     } else {
