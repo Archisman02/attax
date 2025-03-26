@@ -8,7 +8,7 @@ type UserResponse = {
   question: string | string[];
   userAnswer: string;
   correctAnswer: string;
-  // isCorrect: boolean;
+  isAnswerCorrect: string;
 };
 
 class QuizStore {
@@ -27,15 +27,15 @@ class QuizStore {
     category: string,
     question: string,
     userAnswer: string,
-    correctAnswer: string
-    // isCorrect: boolean
+    correctAnswer: string,
+    isAnswerCorrect: string
   ) {
     this.userResponses.push({
       category,
       question,
       userAnswer,
       correctAnswer,
-      // isCorrect,
+      isAnswerCorrect,
     });
   }
 }

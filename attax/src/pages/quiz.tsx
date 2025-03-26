@@ -573,6 +573,7 @@ const Quiz = observer(() => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [userResponses, setUserResponses] = useState<any[]>([]);
+  let isAnswerCorrect = "";
 
   useEffect(() => {
     setTwentyQuestions(getRandomQuestions(questions, 5));
@@ -610,21 +611,24 @@ const Quiz = observer(() => {
         currentQuestion.category,
         currentQuestion.quote,
         userAnswer,
-        currentQuestion.answer
+        currentQuestion.answer,
+        isAnswerCorrect
       );
     } else if (currentQuestion.category === "Career Path Challenge") {
       quizStore.addUserResponse(
         currentQuestion.category,
         currentQuestion.clubs,
         userAnswer,
-        currentQuestion.answer
+        currentQuestion.answer,
+        isAnswerCorrect
       );
     } else {
       quizStore.addUserResponse(
         currentQuestion.category,
         currentQuestion.hints,
         userAnswer,
-        currentQuestion.answer
+        currentQuestion.answer,
+        isAnswerCorrect
       );
     }
 
@@ -652,6 +656,11 @@ const Quiz = observer(() => {
       userAnswerTrimmed === lastName
     ) {
       quizStore.setScore(quizStore.score + 1);
+      isAnswerCorrect = "correct";
+    } else if (userAnswerTrimmed === "") {
+      isAnswerCorrect = "skipped";
+    } else {
+      isAnswerCorrect = "wrong";
     }
 
     setSnackbarMessage("Question Answered");
@@ -663,6 +672,7 @@ const Quiz = observer(() => {
   const handleSkipQuestion = () => {
     setSnackbarMessage("Question Skipped");
     setSnackbarOpen(true);
+    isAnswerCorrect = "skipped";
     nextQuestion();
   };
 

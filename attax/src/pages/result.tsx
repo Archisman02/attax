@@ -6,6 +6,7 @@ import {
   AccordionSummary,
   Box,
   Button,
+  Chip,
   Typography,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -26,7 +27,10 @@ const Result = observer(() => {
       justifyContent="center"
       alignItems="center"
       height="100vh"
-      sx={{ background: "linear-gradient(135deg, #006400, #00a000)" }}
+      sx={{
+        background: "linear-gradient(135deg, #006400, #00a000)",
+        overflowY: "auto",
+      }}
     >
       {/* Top Half */}
       <Box
@@ -84,6 +88,13 @@ const Result = observer(() => {
 
       {/* Bottom Half */}
       <Box width="50%">
+        <Typography
+          variant="h5"
+          color="white"
+          sx={{ mb: 1, textAlign: "center" }}
+        >
+          Here are the answers!
+        </Typography>
         {userResponses.map((userResponse, index) => (
           <Accordion
             key={index}
@@ -98,7 +109,7 @@ const Result = observer(() => {
               aria-controls={`panel${index}-content`}
               id={`panel${index}-header`}
             >
-              <Typography component="span">
+              <Typography component="span" sx={{ marginRight: 1 }}>
                 {userResponse.category === "Who Said It?"
                   ? `Who said ${userResponse.question}`
                   : userResponse.category === "Career Path Challenge"
@@ -113,13 +124,36 @@ const Result = observer(() => {
                         : userResponse.question
                     }`}
               </Typography>
+              <Chip
+                label={
+                  userResponse.isAnswerCorrect === "correct"
+                    ? "Correct"
+                    : userResponse.isAnswerCorrect === "skipped"
+                    ? "Skipped"
+                    : "Incorrect"
+                }
+                color={
+                  userResponse.isAnswerCorrect === "correct"
+                    ? "success"
+                    : userResponse.isAnswerCorrect === "skipped"
+                    ? "info"
+                    : "error"
+                }
+                size="small"
+                sx={{ fontWeight: "bold" }}
+              />
             </AccordionSummary>
             <AccordionDetails>
               <Typography>
-                <strong>Your Answer:</strong> {userResponse.userAnswer}
+                {userResponse.userAnswer !== "" && "Your Answer: "}
+                <strong>
+                  {userResponse.userAnswer === ""
+                    ? "Question skipped"
+                    : userResponse.userAnswer}
+                </strong>
               </Typography>
               <Typography>
-                <strong>Correct Answer:</strong> {userResponse.correctAnswer}
+                Correct Answer: <strong>{userResponse.correctAnswer}</strong>
               </Typography>
             </AccordionDetails>
           </Accordion>
