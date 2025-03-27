@@ -17,8 +17,6 @@ export default function Home() {
   const [category, setCategory] = useState("football");
 
   const handleStartGame = () => {
-    if (!category)
-      return alert("Please enter your name and select a category!");
     router.push("./quiz");
   };
 

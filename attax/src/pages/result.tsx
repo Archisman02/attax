@@ -26,16 +26,21 @@ const Result = observer(() => {
       flexDirection="column"
       justifyContent="center"
       alignItems="center"
-      height="100vh"
+      minHeight="100vh"
       sx={{
         background: "linear-gradient(135deg, #006400, #00a000)",
         overflowY: "auto",
+        px: 2,
       }}
     >
       {/* Top Half */}
       <Box
-        width="50%"
+        // width="50%"
+        width={{ xs: "90%", sm: "70%", md: "50%" }}
         textAlign="center"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
         mb={4}
         sx={{
           borderRadius: 2,
@@ -50,24 +55,36 @@ const Result = observer(() => {
           fontWeight="bold"
           fontStyle="italic"
           mb={2}
-          sx={{ margin: 0, padding: 0 }}
+          sx={{ margin: 0, padding: 0, fontSize: { xs: "1.5rem", sm: "2rem" } }}
         >
           You got {score} out of 20 correct!
         </Typography>
-        <Typography variant="h5" color="white" sx={{ margin: 0, padding: 0 }}>
+        <Typography
+          variant="h5"
+          color="white"
+          sx={{ margin: 0, padding: 0, fontSize: { xs: "1rem", sm: "1.5rem" } }}
+        >
           {resultMessage}
         </Typography>
-        <Box mt={3}>
+        <Box
+          mt={3}
+          display="flex"
+          flexDirection={{ xs: "column", sm: "row" }}
+          gap={2}
+        >
           <Button
             variant="contained"
             sx={{
               bgcolor: "#643200",
               color: "white",
               fontWeight: "bold",
-              mr: 2,
+              // mr: 2,
             }}
             endIcon={<RestartAltIcon />}
-            onClick={() => window.location.reload()}
+            onClick={() => {
+              quizStore.clear();
+              router.replace("/quiz");
+            }}
           >
             Restart quiz
           </Button>
@@ -79,7 +96,10 @@ const Result = observer(() => {
               fontWeight: "bold",
             }}
             endIcon={<HomeIcon />}
-            onClick={() => router.replace("/")}
+            onClick={() => {
+              quizStore.clear();
+              router.replace("/");
+            }}
           >
             Go to Home
           </Button>
@@ -87,11 +107,15 @@ const Result = observer(() => {
       </Box>
 
       {/* Bottom Half */}
-      <Box width="50%">
+      <Box width={{ xs: "90%", sm: "70%", md: "50%" }}>
         <Typography
           variant="h5"
           color="white"
-          sx={{ mb: 1, textAlign: "center" }}
+          sx={{
+            mb: 1,
+            textAlign: "center",
+            fontSize: { xs: "1rem", sm: "1.5rem" },
+          }}
         >
           Here are the answers!
         </Typography>

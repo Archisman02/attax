@@ -2,9 +2,6 @@ import { makeAutoObservable } from "mobx";
 
 type UserResponse = {
   category: string;
-  // quote?: string;
-  // clubs?: string[];
-  // hints?: string[];
   question: string | string[];
   userAnswer: string;
   correctAnswer: string;
@@ -37,6 +34,12 @@ class QuizStore {
       correctAnswer,
       isAnswerCorrect,
     });
+  }
+
+  // Add a clear function
+  clear() {
+    this.userResponses = [];
+    this.score = 0; // Reset score if needed
   }
 }
 

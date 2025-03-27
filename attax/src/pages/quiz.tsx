@@ -355,8 +355,6 @@ const questions = [
       "The ball is round, the game lasts ninety minutes, and everything else is just theory.",
     answer: "Sepp Herberger",
   },
-
-  // 🟡 MEDIUM QUESTIONS (20)
   {
     id: 54,
     category: "Who Said It?",
@@ -369,7 +367,7 @@ const questions = [
     category: "Who Said It?",
     quote:
       "The more difficult the victory, the greater the happiness in winning.",
-    answer: "Pelé",
+    answer: "Pele",
   },
   {
     id: 56,
@@ -416,7 +414,7 @@ const questions = [
     category: "Who Said It?",
     quote:
       "I never tried to compare myself to anyone else. I just tried to be myself.",
-    answer: "Andrés Iniesta",
+    answer: "Andres Iniesta",
   },
   {
     id: 63,
@@ -454,32 +452,32 @@ const questions = [
     id: 67,
     category: "Who Said It?",
     quote:
-      "“Please don’t call me arrogant, but I’m European champion and I think I’m a special one.",
-    answer: "José Mourinho",
+      "Please don’t call me arrogant, but I’m European champion and I think I’m a special one.",
+    answer: "Jose Mourinho",
   },
   {
     id: 68,
     category: "Who Said It?",
     quote: "I prefer not to speak. If I speak, I am in big trouble.",
-    answer: "José Mourinho",
+    answer: "Jose Mourinho",
   },
   {
     id: 69,
     category: "Who Said It?",
     quote: "Respect. Respect, man. Respect. Respect.",
-    answer: "José Mourinho",
+    answer: "Jose Mourinho",
   },
   {
     id: 70,
     category: "Who Said It?",
     quote: "They brought the bus and they left the bus in front of the goal.",
-    answer: "José Mourinho",
+    answer: "Jose Mourinho",
   },
   {
     id: 71,
     category: "Who Said It?",
     quote: "They brought the bus and they left the bus in front of the goal.",
-    answer: "José Mourinho",
+    answer: "Jose Mourinho",
   },
   {
     id: 73,
@@ -711,7 +709,11 @@ const Quiz = observer(() => {
         }}
       >
         <Box display="flex" justifyContent="space-between" mb={2}>
-          <Typography variant="h6" fontWeight="bold">
+          <Typography
+            variant="h6"
+            fontWeight="bold"
+            sx={{ fontSize: { xs: "1rem", sm: "1.5rem" } }}
+          >
             Question {currentQuestionIndex + 1}/{20}
           </Typography>
           <Typography
@@ -719,6 +721,7 @@ const Quiz = observer(() => {
             sx={{
               color: timer <= 5 ? "red" : "white",
               fontWeight: "bold",
+              fontSize: { xs: "1rem", sm: "1.5rem" },
             }}
           >
             ⏳ {timer}s

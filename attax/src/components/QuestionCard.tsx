@@ -78,7 +78,7 @@ const QuestionCard: React.FC<{
             variant="h4"
             fontWeight="bold"
             fontStyle="italic"
-            // sx={{ mb: 3, color: "white" }}
+            sx={{ fontSize: { xs: "1.5rem", sm: "2rem" } }}
           >
             "{question.quote}"
           </Typography>
