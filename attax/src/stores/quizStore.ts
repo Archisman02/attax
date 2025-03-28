@@ -22,7 +22,7 @@ class QuizStore {
 
   addUserResponse(
     category: string,
-    question: string,
+    question: string | string[],
     userAnswer: string,
     correctAnswer: string,
     isAnswerCorrect: string

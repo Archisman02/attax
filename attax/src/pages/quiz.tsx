@@ -12,8 +12,17 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import QuestionCard from "@/components/QuestionCard";
-import Results from "@/components/Results";
 import router from "next/router";
+
+type Question = {
+  id: number;
+  category: string;
+  answer: string;
+  hints?: string[];
+  clubs?: string[];
+  quote?: string;
+  status?: string;
+};
 
 const questions = [
   {
@@ -545,36 +554,23 @@ const questions = [
   },
 ];
 
-const getRandomQuestions = (questions: any[], num: number) => {
+const getRandomQuestions = (questions: Question[], num: number) => {
   const shuffled = [...questions].sort(() => Math.random() - 0.5); // Shuffle array
   console.log("Shuffled", shuffled.slice(0, num));
   return shuffled.slice(0, num); // Pick first `num` questions
 };
 
-const getResultMessage = (score: number) => {
-  if (score >= 3) {
-    return "You're an expert. You deserve a seat with Micah Richards at Monday Night Football.";
-  } else if (score > 1 && score < 3) {
-    return "Great job! You're a football enthusiast.";
-  } else {
-    return "Keep practicing! You'll get there.";
-  }
-};
-
 const Quiz = observer(() => {
-  const [twentyQuestions, setTwentyQuestions] = useState<any[]>([]);
+  const [twentyQuestions, setTwentyQuestions] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  //   const currentQuestion = twentyQuestions[currentQuestionIndex];
   const [userAnswer, setUserAnswer] = useState("");
   const [timer, setTimer] = useState(20);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [gameOver, setGameOver] = useState(false);
-  const [userResponses, setUserResponses] = useState<any[]>([]);
   let isAnswerCorrect = "";
 
   useEffect(() => {
-    setTwentyQuestions(getRandomQuestions(questions, 5));
+    setTwentyQuestions(getRandomQuestions(questions, 20));
   }, []);
 
   const currentQuestion =
@@ -604,7 +600,11 @@ const Quiz = observer(() => {
   }, [timer]);
 
   const nextQuestion = () => {
-    if (currentQuestion.category === "Who Said It?") {
+    if (
+      currentQuestion &&
+      currentQuestion.quote &&
+      currentQuestion.category === "Who Said It?"
+    ) {
       quizStore.addUserResponse(
         currentQuestion.category,
         currentQuestion.quote,
@@ -612,7 +612,11 @@ const Quiz = observer(() => {
         currentQuestion.answer,
         isAnswerCorrect
       );
-    } else if (currentQuestion.category === "Career Path Challenge") {
+    } else if (
+      currentQuestion &&
+      currentQuestion.clubs &&
+      currentQuestion.category === "Career Path Challenge"
+    ) {
       quizStore.addUserResponse(
         currentQuestion.category,
         currentQuestion.clubs,
@@ -620,7 +624,11 @@ const Quiz = observer(() => {
         currentQuestion.answer,
         isAnswerCorrect
       );
-    } else {
+    } else if (
+      currentQuestion &&
+      currentQuestion.hints &&
+      currentQuestion.category === "Who Am I?"
+    ) {
       quizStore.addUserResponse(
         currentQuestion.category,
         currentQuestion.hints,
@@ -630,10 +638,9 @@ const Quiz = observer(() => {
       );
     }
 
-    if (currentQuestionIndex != 4) {
+    if (currentQuestionIndex != 19) {
       setCurrentQuestionIndex((prev) => prev + 1);
     } else {
-      setGameOver(true);
       router.replace("/result");
     }
     setTimer(20);
@@ -644,7 +651,7 @@ const Quiz = observer(() => {
   }, [currentQuestionIndex]);
 
   const submitAnswer = () => {
-    const correctAnswer = currentQuestion.answer.toLowerCase();
+    const correctAnswer = currentQuestion?.answer?.toLowerCase() || "";
     const userAnswerTrimmed = userAnswer.trim().toLowerCase();
     const [firstName, lastName] = correctAnswer.split(" ");
 

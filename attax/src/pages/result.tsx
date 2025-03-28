@@ -41,6 +41,7 @@ const Result = observer(() => {
         display="flex"
         flexDirection="column"
         alignItems="center"
+        marginTop={4}
         mb={4}
         sx={{
           borderRadius: 2,
@@ -54,23 +55,23 @@ const Result = observer(() => {
           color="white"
           fontWeight="bold"
           fontStyle="italic"
-          mb={2}
-          sx={{ margin: 0, padding: 0, fontSize: { xs: "1.5rem", sm: "2rem" } }}
+          mb={1}
+          sx={{ fontSize: { xs: "1.5rem", sm: "2rem" } }}
         >
           You got {score} out of 20 correct!
         </Typography>
         <Typography
           variant="h5"
           color="white"
-          sx={{ margin: 0, padding: 0, fontSize: { xs: "1rem", sm: "1.5rem" } }}
+          sx={{ fontSize: { xs: "1rem", sm: "1.5rem" } }}
         >
           {resultMessage}
         </Typography>
         <Box
-          mt={3}
+          mt={2}
           display="flex"
           flexDirection={{ xs: "column", sm: "row" }}
-          gap={2}
+          gap={1}
         >
           <Button
             variant="contained"

@@ -1,20 +1,10 @@
-import { useState } from "react";
 import { useRouter } from "next/router";
-import {
-  Box,
-  Typography,
-  Button,
-  TextField,
-  ToggleButton,
-  ToggleButtonGroup,
-  Container,
-} from "@mui/material";
+import { Box, Typography, Button, Container } from "@mui/material";
 import { motion } from "framer-motion";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 export default function Home() {
   const router = useRouter();
-  const [category, setCategory] = useState("football");
 
   const handleStartGame = () => {
     router.push("./quiz");

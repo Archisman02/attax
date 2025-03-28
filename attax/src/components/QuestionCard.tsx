@@ -80,7 +80,7 @@ const QuestionCard: React.FC<{
             fontStyle="italic"
             sx={{ fontSize: { xs: "1.5rem", sm: "2rem" } }}
           >
-            "{question.quote}"
+            &quot;{question.quote}&quot;
           </Typography>
         </Box>
       )}
