@@ -46,7 +46,7 @@ const Result = observer(() => {
         sx={{
           borderRadius: 2,
           p: 3,
-          background: "rgba(255, 255, 255, 0.1)", // Transparent effect
+          background: "rgba(255, 255, 255, 0.1)",
           backdropFilter: "blur(10px)",
         }}
       >
@@ -76,10 +76,12 @@ const Result = observer(() => {
           <Button
             variant="contained"
             sx={{
-              bgcolor: "#643200",
-              color: "white",
+              bgcolor: "#FFD700",
+              color: "black",
+              "&:hover": {
+                backgroundColor: "#ffc107",
+              },
               fontWeight: "bold",
-              // mr: 2,
             }}
             endIcon={<RestartAltIcon />}
             onClick={() => {
@@ -108,7 +110,7 @@ const Result = observer(() => {
       </Box>
 
       {/* Bottom Half */}
-      <Box width={{ xs: "90%", sm: "70%", md: "50%" }}>
+      <Box width={{ xs: "90%", sm: "70%", md: "50%" }} sx={{ marginBottom: 4 }}>
         <Typography
           variant="h5"
           color="white"
@@ -124,13 +126,13 @@ const Result = observer(() => {
           <Accordion
             key={index}
             sx={{
-              background: "rgba(255, 255, 255, 0.1)", // Transparent effect
+              background: "rgba(255, 255, 255, 0.1)",
               backdropFilter: "blur(10px)",
-              color: "white", // Set text color to white
+              color: "white",
             }}
           >
             <AccordionSummary
-              expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />} // Set expand icon color to white
+              expandIcon={<ExpandMoreIcon sx={{ color: "white" }} />}
               aria-controls={`panel${index}-content`}
               id={`panel${index}-header`}
             >

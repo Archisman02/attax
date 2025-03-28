@@ -8,6 +8,7 @@
 import Head from "next/head";
 import type { AppProps } from "next/app";
 import "@/styles/globals.css"; // Make sure to include your global styles
+import { Analytics } from "@vercel/analytics/next";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -21,6 +22,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         />
       </Head>
       <Component {...pageProps} />
+      <Analytics />
     </>
   );
 }

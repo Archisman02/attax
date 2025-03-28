@@ -52,7 +52,7 @@ export default function Home() {
                 lg: "4rem",
               },
               color: "white",
-              mb: 1,
+              mb: 2,
               letterSpacing: 2,
             }}
             gutterBottom
@@ -76,8 +76,8 @@ export default function Home() {
                 md: "1.5rem",
                 lg: "1.5rem",
               },
-              mb: 2,
-              letterSpacing: 2,
+              mb: 4,
+              letterSpacing: 4,
               color: "white",
             }}
             gutterBottom
@@ -109,8 +109,8 @@ export default function Home() {
             variant="contained"
             sx={{
               mt: 2,
-              backgroundColor: "#643200",
-              color: "white",
+              backgroundColor: "#FFD700",
+              color: "black",
               "&:hover": {
                 backgroundColor: "#ffc107",
               },

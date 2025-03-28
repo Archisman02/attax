@@ -741,7 +741,7 @@ const Quiz = observer(() => {
         <TextField
           fullWidth
           variant="outlined"
-          placeholder="Type your answer..."
+          placeholder="Enter the first name, last name, or full name..."
           value={userAnswer}
           onChange={(e) => setUserAnswer(e.target.value)}
           sx={{
@@ -749,28 +749,55 @@ const Quiz = observer(() => {
             bgcolor: "white",
             borderRadius: "8px",
           }}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              submitAnswer();
+            }
+          }}
         />
-
-        <Button
-          variant="contained"
-          sx={{
-            mt: 3,
-            bgcolor: "#FFD700",
-            color: "black",
-            fontWeight: "bold",
-          }} // Gold button
-          onClick={submitAnswer}
-          component={motion.button}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+        <Box
+          mt={2}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          flexDirection={{ xs: "column", sm: "row" }}
+          gap={1}
         >
-          Submit Answer
-        </Button>
+          <Button
+            variant="contained"
+            sx={{
+              bgcolor: "#FFD700",
+              color: "black",
+              "&:hover": {
+                backgroundColor: "#ffc107",
+              },
+              fontWeight: "bold",
+            }}
+            onClick={submitAnswer}
+            component={motion.button}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            Submit
+          </Button>
+
+          <Button
+            variant="text"
+            onClick={handleSkipQuestion}
+            sx={{
+              // borderColor: "#FFD700",
+              color: "#000064",
+              fontWeight: "bold",
+            }}
+          >
+            Skip
+          </Button>
+        </Box>
       </Paper>
       {/* Snackbar for feedback */}
       <Snackbar
         open={snackbarOpen}
-        autoHideDuration={3000}
+        autoHideDuration={2000}
         onClose={handleSnackbarClose}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
