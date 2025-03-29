@@ -33,7 +33,6 @@ const Result = observer(() => {
         px: 2,
       }}
     >
-      {/* Top Half */}
       <Box
         // width="50%"
         width={{ xs: "90%", sm: "70%", md: "50%" }}
@@ -58,15 +57,15 @@ const Result = observer(() => {
           mb={1}
           sx={{ fontSize: { xs: "1.5rem", sm: "2rem" } }}
         >
-          You got {score} out of 20 correct!
+          You got {score} out of 10 correct!
         </Typography>
-        <Typography
+        {/* <Typography
           variant="h5"
           color="white"
           sx={{ fontSize: { xs: "1rem", sm: "1.5rem" } }}
         >
           {resultMessage}
-        </Typography>
+        </Typography> */}
         <Box
           mt={2}
           display="flex"
@@ -109,7 +108,6 @@ const Result = observer(() => {
         </Box>
       </Box>
 
-      {/* Bottom Half */}
       <Box width={{ xs: "90%", sm: "70%", md: "50%" }} sx={{ marginBottom: 4 }}>
         <Typography
           variant="h5"

@@ -36,10 +36,9 @@ class QuizStore {
     });
   }
 
-  // Add a clear function
   clear() {
     this.userResponses = [];
-    this.score = 0; // Reset score if needed
+    this.score = 0;
   }
 }
 
