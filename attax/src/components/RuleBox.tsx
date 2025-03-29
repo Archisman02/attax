@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  Typography,
-  Button,
-  Box,
-} from "@mui/material";
+import { Dialog, DialogContent, Typography, Button, Box } from "@mui/material";
 
 const RulesDialog = ({
   open,
@@ -66,10 +59,10 @@ const RulesDialog = ({
             first name, last name, or full name
           </strong>{" "}
           (spelling must be correct).
-          <br />
-          - Example: "Virgil van Dijk" → "Virgil", "van Dijk", or "Virgil van
-          Dijk" are correct.
-          <br />- Nicknames (e.g., "Lewa" for Lewandowski) are incorrect.
+          <br />- Example: &quot;Virgil van Dijk&quot; → &quot;Virgil&quot;,
+          &quot;van Dijk&quot;, or &quot;Virgil van Dijk&quot; are correct.
+          <br />- Nicknames (e.g., &quot;Lewa&quot; for &quot;Lewandowski&quot;)
+          are incorrect.
         </Typography>
 
         <Typography

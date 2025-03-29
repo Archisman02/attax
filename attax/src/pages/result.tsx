@@ -17,7 +17,7 @@ import router from "next/router";
 
 const Result = observer(() => {
   const score = quizStore.score;
-  const resultMessage = score > 10 ? "Great Job!" : "Better Luck Next Time!";
+  // const resultMessage = score > 10 ? "Great Job!" : "Better Luck Next Time!";
   const userResponses = quizStore.userResponses;
 
   return (

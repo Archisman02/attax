@@ -12,7 +12,6 @@ import {
 } from "@mui/material";
 import { motion } from "framer-motion";
 import QuestionCard from "@/components/QuestionCard";
-import RulesDialog from "@/components/RuleBox";
 import router from "next/router";
 
 type Question = {
