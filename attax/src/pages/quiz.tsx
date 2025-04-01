@@ -670,13 +670,13 @@ const questions = [
     id: 76,
     category: "Who Said It?",
     quote: "Let's talk about six, baby!",
-    answer: "Jürgen Klopp",
+    answer: "Jurgen Klopp",
   },
   {
     id: 77,
     category: "Who Said It?",
     quote: "I'm a normal guy from the Black Forest. I'm the Normal One.",
-    answer: "Jürgen Klopp",
+    answer: "Jurgen Klopp",
   },
   {
     id: 78,
@@ -707,9 +707,9 @@ const questions = [
   {
     id: 82,
     category: "Career Path Challenge",
-    clubs: ["Liverpool", "Bayern Munich", "Al-Nassr"],
+    clubs: ["Southampton", "Liverpool", "Bayern Munich", "Al-Nassr"],
     status: "Playing",
-    answer: "Sadio Mané",
+    answer: "Sadio Mane",
   },
   {
     id: 83,
@@ -730,7 +730,7 @@ const questions = [
       "Marseille",
     ],
     status: "Playing",
-    answer: "Pierre-Emerick Aubameyang",
+    answer: "Pierre Emerick Aubameyang",
   },
   {
     id: 85,
@@ -745,7 +745,7 @@ const questions = [
       "Inter Miami",
     ],
     status: "Retired",
-    answer: "Gonzalo Higuaín",
+    answer: "Gonzalo Higuain",
   },
   {
     id: 86,
@@ -803,16 +803,6 @@ const questions = [
       "I have also won international silverware, playing a key role in my country’s World Cup triumph.",
     ],
     answer: "Paul Pogba",
-  },
-  {
-    id: 92,
-    category: "Who Am I?",
-    hints: [
-      "I began my career in Germany before moving to one of the country’s biggest clubs.",
-      "Known for my incredible reflexes and ability to play outside the box, I redefined the role of a modern goalkeeper.",
-      "I have won multiple league titles, European trophies, and a World Cup, where I was awarded the tournament’s best goalkeeper.",
-    ],
-    answer: "Manuel Neuer",
   },
   {
     id: 92,
