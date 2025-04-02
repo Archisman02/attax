@@ -5,23 +5,38 @@ import { useState } from "react";
 import RulesDialog from "@/components/RuleBox";
 import PersonIcon from "@mui/icons-material/Person";
 import GroupIcon from "@mui/icons-material/Group";
+import NameBox from "@/components/NameBox";
 
 export default function Home() {
   const router = useRouter();
   const [showRules, setShowRules] = useState(false);
+  const [showNameBox, setShowNameBox] = useState(false);
 
   const handleStartGame = () => {
     setShowRules(false);
     router.push("./quiz");
   };
 
+  const handleNameBoxClose = () => {
+    setShowNameBox(false);
+  };
+
+  const handleRoomBoxClose = () => {
+    setShowRules(false);
+  };
+
   return (
     <>
       <RulesDialog
         open={showRules}
-        onClose={handleStartGame}
+        onClose={handleRoomBoxClose}
+        onQuizStart={handleStartGame}
         // startGame={handleStartGame}
       />
+      <NameBox
+        open={showNameBox}
+        handleNameBoxClose={handleNameBoxClose}
+      ></NameBox>
       {!showRules && (
         <Box
           sx={{
@@ -113,7 +128,7 @@ export default function Home() {
                   fontFamily: "Bungee, sans-serif",
                 }}
                 size="large"
-                onClick={() => setShowRules(true)}
+                onClick={() => setShowNameBox(true)}
                 startIcon={<GroupIcon />}
               >
                 Challenge a Friend

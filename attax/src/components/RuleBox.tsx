@@ -4,11 +4,13 @@ import { Dialog, DialogContent, Typography, Button, Box } from "@mui/material";
 const RulesDialog = ({
   open,
   onClose,
+  onQuizStart,
 }: {
   open: boolean;
   onClose: () => void;
+  onQuizStart: () => void;
 }) => {
-  const [timer, setTimer] = useState(10); // Timer for enabling the button
+  const [timer, setTimer] = useState(10);
 
   useEffect(() => {
     if (open && timer > 0) {
@@ -20,6 +22,7 @@ const RulesDialog = ({
   return (
     <Dialog
       open={open}
+      onClose={onClose}
       maxWidth="sm"
       fullWidth
       sx={{ background: "linear-gradient(135deg, #006400, #00a000)" }}
@@ -82,7 +85,7 @@ const RulesDialog = ({
           <Button
             variant="contained"
             color="primary"
-            onClick={onClose}
+            onClick={onQuizStart}
             disabled={timer > 0}
             sx={{
               backgroundColor: "#FFD700",
