@@ -12,9 +12,11 @@ import { useState } from "react";
 const NameBox = ({
   open,
   handleNameBoxClose,
+  createRoom,
 }: {
   open: boolean;
   handleNameBoxClose: () => void;
+  createRoom: () => void;
 }) => {
   const [name, setName] = useState<string>("");
 
@@ -40,6 +42,7 @@ const NameBox = ({
           type="text"
           fullWidth
           variant="standard"
+          onChange={(e) => setName(e.target.value)}
         />
       </DialogContent>
       <Box
@@ -73,7 +76,7 @@ const NameBox = ({
         <Button
           variant="contained"
           color="primary"
-          // onClick={onClose}
+          onClick={createRoom}
           disabled={name.length === 0}
           sx={{
             backgroundColor: "#FFD700",

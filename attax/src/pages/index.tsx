@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { Box, Typography, Button, Container } from "@mui/material";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import RulesDialog from "@/components/RuleBox";
 import PersonIcon from "@mui/icons-material/Person";
 import GroupIcon from "@mui/icons-material/Group";
@@ -11,6 +11,24 @@ export default function Home() {
   const router = useRouter();
   const [showRules, setShowRules] = useState(false);
   const [showNameBox, setShowNameBox] = useState(false);
+  const socketRef = useRef<WebSocket | null>(null);
+  const [roomId, setRoomId] = useState("");
+
+  useEffect(() => {
+    socketRef.current = new WebSocket("ws://localhost:8080");
+
+    socketRef.current.onopen = () => {
+      console.log("✅ WebSocket connection established");
+    };
+
+    socketRef.current.onclose = () => {
+      console.log("🔌 WebSocket connection closed");
+    };
+
+    return () => {
+      socketRef.current?.close();
+    };
+  }, []);
 
   const handleStartGame = () => {
     setShowRules(false);
@@ -25,17 +43,40 @@ export default function Home() {
     setShowRules(false);
   };
 
+  const createRoom = () => {
+    console.log("🔘 Create Room clicked");
+
+    if (socketRef.current?.readyState === WebSocket.OPEN) {
+      console.log("📤 Sending CREATE_ROOM");
+      socketRef.current.send(JSON.stringify({ type: "CREATE_ROOM" }));
+    } else {
+      console.log("❌ WebSocket not open:", socketRef.current?.readyState);
+    }
+
+    if (socketRef.current) {
+      socketRef.current.onmessage = (event: MessageEvent) => {
+        console.log("📩 Message received from server:", event.data);
+        const data = JSON.parse(event.data);
+
+        if (data.type === "ROOM_CREATED") {
+          console.log("✅ Room created! Redirecting to lobby...");
+          router.push(`/quizLobby?roomId=${data.roomId}&creator=true`);
+        }
+      };
+    }
+  };
+
   return (
     <>
       <RulesDialog
         open={showRules}
         onClose={handleRoomBoxClose}
         onQuizStart={handleStartGame}
-        // startGame={handleStartGame}
       />
       <NameBox
         open={showNameBox}
         handleNameBoxClose={handleNameBoxClose}
+        createRoom={createRoom}
       ></NameBox>
       {!showRules && (
         <Box
