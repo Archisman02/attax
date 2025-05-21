@@ -16,7 +16,8 @@ wss.on("connection", (ws) => {
 
       switch (data.type) {
         case "CREATE_ROOM":
-          const roomId = uuidv4();
+          const roomId = Math.floor(100000 + Math.random() * 900000).toString();
+          ws.isOwner = true;
           rooms[roomId] = [ws];
           ws.roomId = roomId;
 
@@ -44,6 +45,25 @@ wss.on("connection", (ws) => {
                 message: "Room is full or doesn't exist.",
               })
             );
+          }
+          break;
+
+        case "CLOSE_ROOM":
+          const roomToClose = data.roomId;
+          if (rooms[roomToClose]) {
+            // Notify all clients and close their sockets
+            rooms[roomToClose].forEach((client) => {
+              client.send(
+                JSON.stringify({
+                  type: "ROOM_CLOSED",
+                  message: "The host has closed the room.",
+                })
+              );
+              client.close();
+            });
+
+            delete rooms[roomToClose];
+            console.log(`❌ Room ${roomToClose} closed by owner`);
           }
           break;
 

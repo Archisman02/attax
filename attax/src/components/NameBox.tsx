@@ -1,3 +1,4 @@
+import playerStore from "@/stores/playerStore";
 import {
   Box,
   Button,
@@ -42,7 +43,10 @@ const NameBox = ({
           type="text"
           fullWidth
           variant="standard"
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => {
+            setName(e.target.value);
+            playerStore.setPlayerOne(e.target.value);
+          }}
         />
       </DialogContent>
       <Box
