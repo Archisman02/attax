@@ -1,51 +1,61 @@
 import { useRouter } from "next/router";
 import { Box, Typography, Button, Container } from "@mui/material";
 import { motion } from "framer-motion";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import RulesDialog from "@/components/RuleBox";
+import PersonIcon from "@mui/icons-material/Person";
+import GroupIcon from "@mui/icons-material/Group";
+import NameBox from "@/components/NameBox";
 
 export default function Home() {
   const router = useRouter();
   const [showRules, setShowRules] = useState(false);
+  const [showNameBox, setShowNameBox] = useState(false);
 
   const handleStartGame = () => {
     setShowRules(false);
     router.push("./quiz");
   };
 
+  const handleNameBoxClose = () => {
+    setShowNameBox(false);
+  };
+
+  const handleRoomBoxClose = () => {
+    setShowRules(false);
+  };
+
   return (
     <>
       <RulesDialog
         open={showRules}
-        onClose={handleStartGame}
-        // startGame={handleStartGame}
+        onClose={handleRoomBoxClose}
+        onQuizStart={handleStartGame}
       />
+      <NameBox
+        open={showNameBox}
+        handleNameBoxClose={handleNameBoxClose}
+        createRoom={createRoom}
+      ></NameBox>
       {!showRules && (
         <Box
           sx={{
             minHeight: "100vh",
             display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            // backgroundImage: "linear-gradient(to bottom right, #4caf50, #81c784)"
             background: "linear-gradient(135deg, #006400, #00a000)",
           }}
         >
-          <Container maxWidth="md" sx={{ textAlign: "center" }}>
-            {/* <motion.div
-          initial={{ opacity: 0, y: -50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        > */}
-            {/* <Box
+          <Container
+            maxWidth="md"
             sx={{
               textAlign: "center",
-              p: 4,
-              backgroundColor: "#006432",
-              borderRadius: 2,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              // backgroundColor: "pink",
             }}
-          > */}
+          >
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -97,29 +107,35 @@ export default function Home() {
               </Typography>
             </motion.div>
 
-            {/* <ToggleButtonGroup
-              value={category}
-              exclusive
-              onChange={(event, newCategory) => setCategory(newCategory)}
-              sx={{ mb: 1 }}
-            >
-              <ToggleButton value="football" sx={{ fontSize: "1.2rem", px: 3 }}>
-                ⚽ Football
-              </ToggleButton>
-              <ToggleButton value="cricket" sx={{ fontSize: "1.2rem", px: 3 }}>
-                🏏 Cricket
-              </ToggleButton>
-            </ToggleButtonGroup> */}
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.6, duration: 0.5 }}
+            <Box
+              sx={{
+                width: { xs: "90%", sm: "65%" },
+                display: "flex",
+                flexDirection: { xs: "column", md: "row" },
+                gap: 2,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
             >
               <Button
                 variant="contained"
                 sx={{
-                  mt: 2,
+                  backgroundColor: "#FFD700",
+                  color: "black",
+                  "&:hover": {
+                    backgroundColor: "#ffc107",
+                  },
+                  fontFamily: "Bungee, sans-serif",
+                }}
+                size="large"
+                onClick={() => setShowNameBox(true)}
+                startIcon={<GroupIcon />}
+              >
+                Challenge a Friend
+              </Button>
+              <Button
+                variant="contained"
+                sx={{
                   backgroundColor: "#FFD700",
                   color: "black",
                   "&:hover": {
@@ -129,13 +145,11 @@ export default function Home() {
                 }}
                 size="large"
                 onClick={() => setShowRules(true)}
-                endIcon={<ArrowForwardIcon />}
+                startIcon={<PersonIcon />}
               >
-                Start Football Quiz
+                Play Solo Quiz
               </Button>
-            </motion.div>
-            {/* </Box> */}
-            {/* </motion.div> */}
+            </Box>
           </Container>
         </Box>
       )}
