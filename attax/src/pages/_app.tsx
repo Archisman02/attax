@@ -1,14 +1,8 @@
-// import "@/styles/globals.css";
-// import type { AppProps } from "next/app";
-
-// export default function App({ Component, pageProps }: AppProps) {
-//   return <Component {...pageProps} />;
-// }
-
 import Head from "next/head";
 import type { AppProps } from "next/app";
 import "@/styles/globals.css"; // Make sure to include your global styles
 import { Analytics } from "@vercel/analytics/next";
+import { SocketProvider } from "@/context/SocketContext";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
@@ -21,7 +15,9 @@ export default function MyApp({ Component, pageProps }: AppProps) {
           rel="stylesheet"
         />
       </Head>
-      <Component {...pageProps} />
+      <SocketProvider>
+        <Component {...pageProps} />
+      </SocketProvider>
       <Analytics />
     </>
   );

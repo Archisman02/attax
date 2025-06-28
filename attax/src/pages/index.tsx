@@ -6,11 +6,13 @@ import RulesDialog from "@/components/RuleBox";
 import PersonIcon from "@mui/icons-material/Person";
 import GroupIcon from "@mui/icons-material/Group";
 import NameBox from "@/components/NameBox";
+import { useSocket } from "@/context/SocketContext";
 
 export default function Home() {
   const router = useRouter();
   const [showRules, setShowRules] = useState(false);
   const [showNameBox, setShowNameBox] = useState(false);
+  const { socket } = useSocket();
 
   const handleStartGame = () => {
     setShowRules(false);
@@ -25,6 +27,10 @@ export default function Home() {
     setShowRules(false);
   };
 
+  const joinRoom = () => {
+    socket?.emit("joinRoom", { roomId: "abc123", playerName: "PlayerOne" });
+  };
+
   return (
     <>
       <RulesDialog
@@ -35,7 +41,7 @@ export default function Home() {
       <NameBox
         open={showNameBox}
         handleNameBoxClose={handleNameBoxClose}
-        createRoom={createRoom}
+        joinRoom={joinRoom}
       ></NameBox>
       {!showRules && (
         <Box
@@ -53,7 +59,6 @@ export default function Home() {
               flexDirection: "column",
               justifyContent: "center",
               alignItems: "center",
-              // backgroundColor: "pink",
             }}
           >
             <motion.div

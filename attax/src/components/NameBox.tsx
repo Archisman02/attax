@@ -13,11 +13,11 @@ import { useState } from "react";
 const NameBox = ({
   open,
   handleNameBoxClose,
-  createRoom,
+  joinRoom,
 }: {
   open: boolean;
   handleNameBoxClose: () => void;
-  createRoom: () => void;
+  joinRoom: () => void;
 }) => {
   const [name, setName] = useState<string>("");
 
@@ -80,7 +80,7 @@ const NameBox = ({
         <Button
           variant="contained"
           color="primary"
-          onClick={createRoom}
+          // onClick={createRoom}
           disabled={name.length === 0}
           sx={{
             backgroundColor: "#FFD700",
