@@ -8,7 +8,8 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { socket } from "@/utils/socket";
 
 const NameBox = ({
   open,
@@ -20,6 +21,28 @@ const NameBox = ({
   joinRoom: () => void;
 }) => {
   const [name, setName] = useState<string>("");
+  const [roomCode, setRoomCode] = useState("");
+
+  const handleCreateRoom = () => {
+    console.log("Emitting create-room...");
+    socket.emit("create-room");
+  };
+
+  useEffect(() => {
+    socket.on("room-created", (code) => {
+      console.log("Room created with code:", code);
+      setRoomCode(code);
+    });
+
+    socket.on("room-joined", ({ players }) => {
+      console.log("Players in room:", players);
+    });
+
+    socket.on("start-quiz", (questions) => {
+      console.log("Game started with questions:", questions);
+      // Navigate to quiz page
+    });
+  }, []);
 
   return (
     <Dialog
@@ -80,7 +103,7 @@ const NameBox = ({
         <Button
           variant="contained"
           color="primary"
-          // onClick={createRoom}
+          onClick={handleCreateRoom}
           disabled={name.length === 0}
           sx={{
             backgroundColor: "#FFD700",

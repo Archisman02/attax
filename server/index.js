@@ -1,64 +1,71 @@
 const express = require("express");
 const http = require("http");
 const { Server } = require("socket.io");
-
+const cors = require("cors");
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: "*", // or your Next.js domain
+    methods: ["GET", "POST"],
+  },
+});
+app.use(cors());
 
-const rooms = {};
+const rooms = {}; // In-memory store
 
 io.on("connection", (socket) => {
-  console.log(`New connection: ${socket.id}`);
+  console.log("User connected:", socket.id);
 
-  // ✅ Player wants to join a room
-  socket.on("joinRoom", ({ roomId, playerName }) => {
-    console.log(`${playerName} (${socket.id}) wants to join ${roomId}`);
-
-    // If room doesn’t exist, create it
-    if (!rooms[roomId]) {
-      rooms[roomId] = {
-        players: [],
-        // Add other game-specific state if needed
-      };
-    }
-
-    // Add this player’s socket ID
-    rooms[roomId].players.push({ id: socket.id, name: playerName });
-
-    // Make the socket join the Socket.IO room
-    socket.join(roomId);
-
-    // Notify others in room
-    socket.to(roomId).emit("playerJoined", {
-      playerId: socket.id,
-      playerName,
-    });
-
-    // Optionally, send the updated room info to the joining player
-    socket.emit("joinedRoom", {
-      roomId,
-      players: rooms[roomId].players,
-    });
-
-    console.log(`Players in ${roomId}:`, rooms[roomId].players);
+  socket.on("create-room", () => {
+    console.log("Creating room for:", socket.id);
+    const roomCode = Math.random().toString(36).substr(2, 6).toUpperCase();
+    rooms[roomCode] = {
+      players: [socket.id],
+      scores: {},
+    };
+    socket.join(roomCode);
+    console.log("Room created:", roomCode);
+    socket.emit("room-created", roomCode);
   });
 
-  // ✅ Handle disconnect
+  socket.on("join-room", ({ roomCode }) => {
+    const room = rooms[roomCode];
+    if (!room || room.players.length >= 2) {
+      socket.emit("join-error", "Room not available");
+      return;
+    }
+
+    room.players.push(socket.id);
+    socket.join(roomCode);
+    io.to(roomCode).emit("room-joined", { players: room.players });
+
+    // Start game if 2 players are present
+    if (room.players.length === 2) {
+      const questions = generateQuestions(); // create 10 Qs
+      io.to(roomCode).emit("start-quiz", questions);
+    }
+  });
+
+  socket.on("submit-answer", ({ roomCode, playerId, correct }) => {
+    const room = rooms[roomCode];
+    if (!room) return;
+
+    room.scores[playerId] = (room.scores[playerId] || 0) + (correct ? 1 : 0);
+
+    // Optional: check if all answers are in and then send result
+    if (Object.keys(room.scores).length === 2) {
+      io.to(roomCode).emit("quiz-result", room.scores);
+    }
+  });
+
   socket.on("disconnect", () => {
-    console.log(`Client disconnected: ${socket.id}`);
-    // Remove from any rooms
-    for (const roomId in rooms) {
-      rooms[roomId].players = rooms[roomId].players.filter(
-        (p) => p.id !== socket.id
-      );
-
-      // Optionally: Notify remaining players
-      socket.to(roomId).emit("playerLeft", { playerId: socket.id });
-
-      // If room is empty, delete it
-      if (rooms[roomId].players.length === 0) {
-        delete rooms[roomId];
+    console.log("User disconnected:", socket.id);
+    // Clean up from rooms
+    for (const [code, room] of Object.entries(rooms)) {
+      if (room.players.includes(socket.id)) {
+        delete rooms[code];
+        io.to(code).emit("player-disconnected");
       }
     }
   });
